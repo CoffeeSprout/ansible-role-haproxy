@@ -1,0 +1,6 @@
+---
+- hosts: all
+  become: True
+  roles:
+  - role: coffeesprout.haproxy
+    haproxy_stats_password: "changeme"

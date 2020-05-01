@@ -1,0 +1,76 @@
+---
+# defaults file for bvansomeren.haproxy
+#
+haproxy_package: "haproxy"
+haproxy_extra_packages:
+- py37-openssl
+- hatop
+- rsync
+
+public_ip: "{{ ansible_default_ipv4.address }}"
+haproxy_default_cert: "{{ haproxy_cert_folder }}/default-combined"
+haproxy_cert_folder: "/usr/local/etc/haproxy/certs"
+haproxy_certificates: []
+
+haproxy_stats_enabled: True
+haproxy_stats_public: True
+haproxy_stats_user: admin
+
+
+haproxy_enable_ssl: True
+haproxy_uid: 200
+haproxy_gid: 200
+
+haproxy_global:
+- name: "maxconn"
+  value: "{{ haproxy_maxconn | default('20000') }}"
+- name: "ulimit-n"
+  value: "{{ haproxy_ulimit_n | default('16384') }}"
+- name: "log"             
+  value: "{{ haproxy_log | default('/var/run/log local0 notice') }}"
+- name: "uid"
+  value: "{{ haproxy_uid }}"
+- name: "gid"
+  value: "{{ haproxy_gid }}"
+- name: "nbproc"
+  value: "{{ haproxy_nbproc | default('1') }}"
+- name: "daemon"
+- name: "ssl-default-bind-options"
+  value: "{{ haproxy_ssl_default_bind_options | default('ssl-min-ver TLSv1.2') }}"
+- name: "ssl-default-bind-ciphers"
+  value: "{{ haproxy_ssl_default_bind_ciphers | default('EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH:AES128+EECDH:AES128+EDH') }}"
+- name: "tune.ssl.default-dh-param"
+  value: "{{ haproxy_default_dh_param | default('2048') }}"
+- name: "stats"
+  value: "{{ haproxy_stats | default('socket /var/run/haproxy.sock mode 600 level admin') }}"
+
+haproxy_global_extra: []
+
+haproxy_defaults:
+- name: "log"
+  value: "{{ haproxy_log | default('global') }}"
+- name: "mode"
+  value: "http"
+
+haproxy_default_options:
+- "httplog"
+- "dontlognull"
+- "forwardfor"
+- "http-server-close"
+
+haproxy_frontends:
+- name: "stats"
+  bind: "127.0.0.1:9000"
+
+haproxy_defaults_extra: []
+
+sites: []
+#  - name: coffeesprout
+#    domains:
+#    - www.coffeesprout.nl
+#    - coffeesprout.nl
+#    servers:
+#    - id: server1
+#      hostname: 192.168.2.175
+#    - id: server2
+#      hostname: 192.168.2.176
