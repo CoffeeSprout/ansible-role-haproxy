@@ -63,6 +63,7 @@ haproxy_frontends:
   bind: "127.0.0.1:9000"
 
 haproxy_defaults_extra: []
+haproxy_userlists: []
 
 sites: []
 #  - name: coffeesprout

@@ -4,3 +4,26 @@
   roles:
   - role: coffeesprout.haproxy
     haproxy_stats_password: "changeme"
+
+- hosts: all
+  become: True
+  roles:
+  - role: coffeesprout.haproxy
+    haproxy_stats_password: "changeme"
+    haproxy_userlists:
+    - name: admin
+      members:
+      - user: barry
+        password: notverysecure
+      - user: manager
+        password: kingofthecastle
+    sites:
+    - name: site-prd
+      http_auth: admin
+      domains:
+      - site.example.com
+      servers:
+      - id: application00
+        hostname: 10.0.1.1
+      - id: application01
+        hostname: 10.0.1.2

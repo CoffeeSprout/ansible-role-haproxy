@@ -22,6 +22,14 @@ defaults
         stats uri /haproxyStats
 {% endif %}
 
+#User lists
+{% for userlist in haproxy_userlists %}
+userlist {{ userlist.name }}
+{% for member in userlist.members | default([]) %}
+  user {{ member.user }} {{ member.passwordtype | default('insecure-password') }} {{ member.password }}
+{% endfor %}
+{% endfor %}
+
 # Frontends
 {% if haproxy_stats_enabled %}
 frontend stats
@@ -73,6 +81,10 @@ backend letsencrypt-backend
 
 {% for site in sites %}
 backend {{ site.name }}-backend
+   {% if site.http_auth is defined %}
+   acl auth_ok http_auth({{ site.http_auth }})
+   http-request auth realm {{ site.http_auth }} if !auth_ok
+   {% endif %}
    balance {{ site.balance | default('roundrobin') }}
 {% if site.extras is defined %}
 {% for extra in site.extras %}

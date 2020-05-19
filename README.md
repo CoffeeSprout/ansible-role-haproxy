@@ -59,6 +59,21 @@ Sometimes you don't need SSL.
 
 Defines the sites that we want to service in HAProxy. The name is administrative and determines the backend name; The domains are a list of domains we listen for. The list of servers includes a list of backend servers and their ip's / hostname.
 
+You may also want to add basic auth on a per website basis. First you define the userlist(s):
+
+    haproxy_userlists: []
+
+We expect a list of userlists, for example:
+
+    haproxy_userlists:
+    - name: admin
+      members:
+      - user: barry
+        password: notverysecure
+      - user: manager
+        password: kingofthecastle
+    
+
 Example Playbook
 ----------------
 
