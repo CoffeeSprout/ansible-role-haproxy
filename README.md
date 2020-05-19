@@ -72,7 +72,16 @@ We expect a list of userlists, for example:
         password: notverysecure
       - user: manager
         password: kingofthecastle
-    
+        
+Add the realm to the site instance using:
+
+      http_auth: admin
+
+Selects the userlist by name
+
+      remove_auth_header: True
+
+Some applications don't like receiving the Authentication header, in that case we can filter it with above.
 
 Example Playbook
 ----------------

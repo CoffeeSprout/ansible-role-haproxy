@@ -81,10 +81,12 @@ backend letsencrypt-backend
 
 {% for site in sites %}
 backend {{ site.name }}-backend
-   {% if site.http_auth is defined %}
+{% if site.http_auth is defined %}
    acl auth_ok http_auth({{ site.http_auth }})
    http-request auth realm {{ site.http_auth }} if !auth_ok
-   {% endif %}
+{% if site.remove_auth_header is defined %}
+   http-request del-header Authorization
+{% endif %}
    balance {{ site.balance | default('roundrobin') }}
 {% if site.extras is defined %}
 {% for extra in site.extras %}
