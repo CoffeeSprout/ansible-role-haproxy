@@ -87,6 +87,7 @@ backend {{ site.name }}-backend
 {% if site.remove_auth_header is defined %}
    http-request del-header Authorization
 {% endif %}
+{% endif %}
    balance {{ site.balance | default('roundrobin') }}
 {% if site.extras is defined %}
 {% for extra in site.extras %}
