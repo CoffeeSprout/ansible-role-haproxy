@@ -61,7 +61,7 @@ frontend http-{{ inventory_hostname }}
 frontend https-{{ inventory_hostname }}
   bind {{ public_ip }}:443 ssl crt {{ haproxy_default_cert }} crt {{ haproxy_cert_folder }}{% for cert in haproxy_certificates %}crt {{ cert }}{% endfor %}
 
-  reqadd X-Forwarded-Proto:\ https
+  http-request add-header X-Forwarded-Proto https
 {% if letsencrypt_host is defined %}
   acl letsencrypt-acl path_beg /.well-known/acme-challenge/
   use_backend letsencrypt-backend if letsencrypt-acl
