@@ -1,0 +1,38 @@
+---
+# setup the syslog information
+
+- name: ensure haproxy logfile
+  copy:
+    content: ""
+    force: no
+    owner: root
+    group: wheel
+    dest: /var/log/haproxy.log
+
+- name: ensure {{ haproxy_path_prefix }}/etc/syslog.d
+  file:
+    state: directory
+    owner: root
+    group: wheel
+    path: "{{ haproxy_path_prefix }}/etc/syslog.d"
+
+- name: ensure syslogd entry for haproxy
+  copy:
+    content: "local0.*            /var/log/haproxy.log"
+    dest: "{{ haproxy_path_prefix }}/etc/syslog.d/haproxy.conf"
+    owner: root
+    group: wheel
+  register: changed_syslogd
+
+- name: Restart syslogd
+  service:
+    name: syslogd
+    state: reloaded
+  when: 'changed_syslogd.changed and syslogd_jail_name is not defined'
+
+- name: Restart jailed syslogd
+  service:
+    name: syslogd
+    state: reloaded
+    args: "-j {{ haproxy_jail_name }}"
+  when: 'changed_syslogd.changed and syslogd_jail_name is defined'

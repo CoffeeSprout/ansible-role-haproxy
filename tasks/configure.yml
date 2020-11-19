@@ -1,0 +1,9 @@
+---
+# Configure haproxy
+
+- name: ensure haproxy configuration
+  template:
+    src: haproxy.conf.j2
+    dest: "{{ haproxy_path_prefix }}/etc/haproxy.conf"
+  register: haproxy_config_change
+

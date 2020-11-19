@@ -8,8 +8,9 @@ haproxy_extra_packages:
 - rsync
 
 public_ip: "{{ ansible_default_ipv4.address }}"
+haproxy_path_prefix: "{{ haproxy_jail_location | default('/') }}{{ freebsd_prefix | default('/usr/local') }}"
 haproxy_default_cert: "{{ haproxy_cert_folder }}/default-combined"
-haproxy_cert_folder: "/usr/local/etc/haproxy/certs"
+haproxy_cert_folder: "{{ haproxy_path_prefix }}/etc/haproxy/certs"
 haproxy_certificates: []
 
 haproxy_stats_enabled: True
@@ -18,8 +19,8 @@ haproxy_stats_user: admin
 
 
 haproxy_enable_ssl: True
-haproxy_uid: 200
-haproxy_gid: 200
+haproxy_uid: 65534
+haproxy_gid: 65534
 
 haproxy_global:
 - name: "maxconn"

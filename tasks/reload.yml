@@ -1,0 +1,12 @@
+---
+# Reload haproxy
+
+- name: Restart haproxy
+  service:
+    name: haproxy
+    state: reloaded
+  when: 'haproxy_config_change.changed and haproxy_jail_name is not defined'
+
+- name: Restart jailed haproxy
+  command: service -j {{ haproxy_jail_name }} haproxy restart
+  when: 'haproxy_config_change.changed and haproxy_jail_name is defined'

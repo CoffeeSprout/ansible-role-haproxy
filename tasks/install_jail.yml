@@ -1,0 +1,19 @@
+---
+
+- name: ensure haproxy is installed
+  pkgng:
+    name: "{{ haproxy_package }}"
+    state: present
+    jail: "{{ haproxy_jail_name }}"
+
+- name: ensure additional packages are installed
+  pkgng:
+    name: "{{ haproxy_extra_packages }}"
+    state: present
+    jail: "{{ haproxy_jail_name }}"
+
+- name: ensure haproxy is enabled
+  sysrc:
+    dest: "{{ haproxy_jail_location | default('/') }}/etc/rc.conf"
+    name: "haproxy_enable"
+    value: "YES"

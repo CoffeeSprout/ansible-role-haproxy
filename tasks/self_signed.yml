@@ -1,0 +1,31 @@
+---
+# Create the certs folder and a standard self signed cert for HAProxy
+
+- name: ensure haproxy certs folder
+  file:
+    state: directory
+    owner: root
+    group: wheel
+    path: "{{ haproxy_cert_folder }}"
+
+- name: Generate an OpenSSL private key.
+  openssl_privatekey:
+    path: "{{ haproxy_path_prefix }}/etc/ssl/default.key"
+
+- name: Generate an OpenSSL CSR.
+  openssl_csr:
+    path: "{{ haproxy_path_prefix }}/etc/ssl/default.csr"
+    privatekey_path: "{{ haproxy_path_prefix }}/etc/ssl/default.key"
+    common_name: "{{ inventory_hostname }}"
+
+- name: Generate a Self Signed OpenSSL certificate.
+  openssl_certificate:
+    path: "{{ haproxy_path_prefix }}/etc/ssl/default.crt"
+    privatekey_path: "{{ haproxy_path_prefix }}/etc/ssl/default.key"
+    csr_path: "{{ haproxy_path_prefix }}/etc/ssl/default.csr"
+    provider: selfsigned
+
+- name: ensure self signed cert is combined for HAProxy
+  shell: "cat {{ haproxy_path_prefix }}/etc/ssl/default.crt {{ haproxy_path_prefix }}/etc/ssl/default.key > {{ haproxy_default_cert }}"
+  args:
+    creates: "{{ haproxy_default_cert }}"
