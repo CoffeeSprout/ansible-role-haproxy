@@ -1,6 +1,14 @@
 ---
 # Configure haproxy
 
+- name: ensure haproxy allow lists
+  template:
+    src: haproxy.acl.j2
+    dest: "/usr/local/etc/haproxy/{{ item.name }}-allowed.acl"
+  with_items:
+  - "{{ haproxy_allowlists }}"
+  register: haproxy_allowlist_change
+
 - name: ensure haproxy configuration
   template:
     src: haproxy.conf.j2

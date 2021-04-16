@@ -45,6 +45,11 @@ frontend http-{{ inventory_hostname }}
   acl http ssl_fc,not
   http-request redirect scheme https if http
 {% else %}
+
+{% if haproxy_frontend_allowlist_enabled %}
+  http-request deny if !{ src -f /usr/local/etc/haproxy/frontend-allowed.acl }
+{% endif %}
+
 {% for site in sites %}
 {% for domain in site.domains %} 
   acl {{ site.name }}-acl hdr(host) -i {{ domain }} 
@@ -60,6 +65,10 @@ frontend http-{{ inventory_hostname }}
 {% if haproxy_enable_ssl %}
 frontend https-{{ inventory_hostname }}
   bind {{ public_ip }}:443 ssl crt {% if haproxy_jail_name is not defined %}{{ haproxy_cert_folder }}{% else %}/usr/local/etc/haproxy/certs/{% endif %}{% for cert in haproxy_certificates %}crt {{ cert }}{% endfor %}
+
+{% if haproxy_frontend_allowlist_enabled %}
+  http-request deny if !{ src -f /usr/local/etc/haproxy/frontend-allowed.acl }
+{% endif %}
 
   http-request add-header X-Forwarded-Proto https
 {% if letsencrypt_host is defined %}
@@ -81,6 +90,9 @@ backend letsencrypt-backend
 
 {% for site in sites %}
 backend {{ site.name }}-backend
+{% if site.allowlist is defined %}
+   http-request deny if !{ src -f /usr/local/etc/haproxy/{{ site.allowlist }}-allowed.acl }  
+{% endif %}
 {% if site.http_auth is defined %}
    acl auth_ok http_auth({{ site.http_auth }})
    http-request auth realm {{ site.http_auth }} if !auth_ok
@@ -95,6 +107,6 @@ backend {{ site.name }}-backend
 {% endfor %}
 {% endif %}
 {% for server in site.servers %}
-    server {{ server.id }} {{ server.hostname }}:{{ server.port | default('80') }} check
+    server {{ server.id }} {{ server.hostname }}:{{ server.port | default('80') }} {% if site.checkenabled | default(True) %}check{% else %}{% endif %}{{''}}
 {% endfor %}
 {% endfor %}

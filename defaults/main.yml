@@ -1,5 +1,5 @@
 ---
-# defaults file for bvansomeren.haproxy
+# defaults file for coffeesprout.haproxy
 #
 haproxy_package: "haproxy"
 haproxy_extra_packages:
@@ -66,8 +66,18 @@ haproxy_frontends:
 haproxy_defaults_extra: []
 haproxy_userlists: []
 
+haproxy_frontend_allowlist_enabled: False
+haproxy_allowlists: []
+# - name: frontend
+#   ips:
+#   - 0.0.0.0
+# - name: coffeesprout
+#   ips:
+#   - 0.0.0.0
+
 sites: []
 #  - name: coffeesprout
+#    allowlist: coffeesprout
 #    domains:
 #    - www.coffeesprout.nl
 #    - coffeesprout.nl

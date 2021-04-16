@@ -83,6 +83,22 @@ Selects the userlist by name
 
 Some applications don't like receiving the Authentication header, in that case we can filter it with above.
 
+
+Speaking of security; Sometimes you want to add an allowlist in front of the entire server (HAProxy Frontend) and now you can:
+
+      haproxy_frontend_allowlist_enabled: False
+
+When toggled to true it expects a ACL to be placed in /usr/local/etc/haproxy/frontend-allowed.acl
+
+You can add this and many others as follows:
+
+      haproxy_allowlists:
+      - name: frontend
+        ips:
+        - 0.0.0.0
+
+You can also set an allow list per site by adding "allowlist: name of list"
+
 Example Playbook
 ----------------
 
