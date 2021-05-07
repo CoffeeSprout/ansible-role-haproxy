@@ -44,7 +44,7 @@ frontend stats
 
 frontend http-{{ inventory_hostname }}
   bind {{ public_ip }}:80
-{% if haproxy_enable_ssl %}
+{% if haproxy_ssl_enabled %}
   acl http ssl_fc,not
   http-request redirect scheme https if http
 {% else %}
@@ -60,9 +60,14 @@ frontend http-{{ inventory_hostname }}
 {% endfor %}
 {% endif %}
 
-{% if haproxy_enable_ssl %}
+{% if haproxy_ssl_enabled %}
 frontend https-{{ inventory_hostname }}
-  bind {{ public_ip }}:443 ssl crt {% if haproxy_jail_name is not defined %}{{ haproxy_cert_folder }}{% else %}/usr/local/etc/haproxy/certs/{% endif %}{% for cert in haproxy_certificates %}crt {{ cert }}{% endfor %}
+  bind {{ public_ip }}:443 ssl crt {% if haproxy_jail_name is not defined %}{{ haproxy_cert_folder }}{% else %}/usr/local/etc/haproxy/certs/{% endif %}{% for cert in haproxy_certificates %}crt {{ cert }}{% endfor %} {% if haproxy_alpn_enabled %}alpn h2,http/1.1{% endif %}
+
+{% if haproxy_hsts_enabled %}
+  # HSTS (63072000 seconds)
+  http-response set-header Strict-Transport-Security max-age=63072000
+{% endif %}
 
   http-request add-header X-Forwarded-Proto https
 {% if letsencrypt_host is defined %}

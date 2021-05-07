@@ -42,9 +42,17 @@ If the stats are also available to the public
 
 You should probably change this to something more secret ;-)
 
-    haproxy_enable_ssl: True
+    haproxy_ssl_enabled: True
     
 Sometimes you don't need SSL.
+
+    haproxy_alpn_enabled: True
+
+But when you do, you probably want ALPN, H2 etc
+
+    haproxy_hsts_enabled: True
+
+And probably want to announce this using HSTS
 
     sites: []
     #  - name: coffeesprout

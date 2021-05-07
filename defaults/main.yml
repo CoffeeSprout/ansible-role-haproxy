@@ -18,9 +18,12 @@ haproxy_stats_public: True
 haproxy_stats_user: admin
 
 
-haproxy_enable_ssl: True
+haproxy_ssl_enabled: True
 haproxy_uid: 65534
 haproxy_gid: 65534
+
+haproxy_alpn_enabled: True
+haproxy_hsts_enabled: True
 
 haproxy_global:
 - name: "maxconn"
@@ -37,9 +40,15 @@ haproxy_global:
   value: "{{ haproxy_nbproc | default('1') }}"
 - name: "daemon"
 - name: "ssl-default-bind-options"
-  value: "{{ haproxy_ssl_default_bind_options | default('ssl-min-ver TLSv1.2') }}"
+  value: "{{ haproxy_ssl_default_bind_options | default('prefer-client-ciphers no-sslv3 no-tlsv10 no-tlsv11 no-tls-tickets') }}"
 - name: "ssl-default-bind-ciphers"
-  value: "{{ haproxy_ssl_default_bind_ciphers | default('EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH:AES128+EECDH:AES128+EDH') }}"
+  value: "{{ haproxy_ssl_default_bind_ciphers | default('ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384') }}"
+- name: "ssl-default-server-ciphers"
+  value: "{{ haproxy_ssl_default_server_ciphers | default('ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384') }}"
+- name: "ssl-default-server-ciphersuites"
+  value: "{{ haproxy_ssl_default_server_ciphersuites | default('TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256') }}"
+- name: "ssl-default-server-options"
+  value: "{{ haproxy_ssl_default_server_options | default('no-sslv3 no-tlsv10 no-tlsv11 no-tls-tickets') }}"
 - name: "tune.ssl.default-dh-param"
   value: "{{ haproxy_default_dh_param | default('2048') }}"
 - name: "stats"
