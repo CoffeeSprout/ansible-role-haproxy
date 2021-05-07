@@ -8,6 +8,9 @@ global
 {% endfor %}
 
 defaults
+{% for option in haproxy_default_options %}
+       option {{ option }}
+{% endfor %}
 {% for default in haproxy_defaults %}
        {{ default.name }} {% if default.value is defined %}{{ default.value }}{% endif %}
 
