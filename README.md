@@ -64,6 +64,9 @@ And probably want to announce this using HSTS
     #      hostname: 192.168.2.175
     #    - id: server2
     #      hostname: 192.168.2.176
+    #      port: 9999
+    #    extras:
+    #    - "option httpchk HEAD /"
 
 Defines the sites that we want to service in HAProxy. The name is administrative and determines the backend name; The domains are a list of domains we listen for. The list of servers includes a list of backend servers and their ip's / hostname.
 
