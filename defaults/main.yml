@@ -29,7 +29,7 @@ haproxy_global:
 - name: "maxconn"
   value: "{{ haproxy_maxconn | default('20000') }}"
 - name: "ulimit-n"
-  value: "{{ haproxy_ulimit_n | default('16384') }}"
+  value: "{{ haproxy_ulimit_n | default('42000') }}"
 - name: "log"             
   value: "{{ haproxy_log | default('/var/run/log local0 notice') }}"
 - name: "uid"
