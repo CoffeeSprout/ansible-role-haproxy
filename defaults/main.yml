@@ -3,7 +3,7 @@
 #
 haproxy_package: "haproxy"
 haproxy_extra_packages:
-- py37-openssl
+- security/py-openssl
 - hatop
 - rsync
 
