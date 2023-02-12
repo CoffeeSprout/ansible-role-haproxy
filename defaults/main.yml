@@ -1,11 +1,8 @@
 ---
-# defaults file for bvansomeren.haproxy
+# defaults file for coffeesprout.haproxy
 #
 haproxy_package: "haproxy"
-haproxy_extra_packages:
-- security/py-openssl
-- hatop
-- rsync
+haproxy_version: "2.7"
 
 public_ip: "{{ ansible_default_ipv4.address }}"
 haproxy_path_prefix: "{{ haproxy_jail_location | default('/') }}{{ freebsd_prefix | default('/usr/local') }}"
@@ -36,8 +33,6 @@ haproxy_global:
   value: "{{ haproxy_uid }}"
 - name: "gid"
   value: "{{ haproxy_gid }}"
-- name: "nbproc"
-  value: "{{ haproxy_nbproc | default('1') }}"
 - name: "daemon"
 - name: "ssl-default-bind-options"
   value: "{{ haproxy_ssl_default_bind_options | default('prefer-client-ciphers no-sslv3 no-tlsv10 no-tlsv11 no-tls-tickets') }}"

@@ -1,0 +1,8 @@
+---
+# Reload haproxy
+
+- name: Restart haproxy
+  service:
+    name: haproxy
+    state: reloaded
+  when: 'haproxy_config_change.changed'

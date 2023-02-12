@@ -9,7 +9,7 @@ Recommended to use the haproxy\_cert\_folder and place certificates through othe
 Requirements
 ------------
 
-FreeBSD 11.2+
+FreeBSD 11.2+ ; Debian 10+
 
 Role Variables
 --------------

@@ -1,0 +1,28 @@
+---
+
+- name: ensure GPG key
+  apt_key:
+    url: https://haproxy.debian.net/bernat.debian.org.gpg
+    keyring: /etc/apt/trusted.gpg.d/haproxy.debian.net.gpg
+    state: present
+
+- name: setup bernat repo
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/haproxy.debian.net.gpg] http://haproxy.debian.net {{ ansible_distribution_release }}-backports-{{ haproxy_version }} main"
+    state: present
+
+- name: ensure haproxy is installed
+  apt:
+    update_cache: True
+    name: "{{ haproxy_package }}"
+    state: present
+
+- name: ensure additional packages are also on the host
+  apt:
+    name: "{{ haproxy_extra_packages }}"
+    state: present
+
+- name: ensure haproxy is enabled
+  service:
+    name: haproxy
+    enabled: True

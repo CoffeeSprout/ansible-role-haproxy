@@ -5,7 +5,7 @@
   file:
     state: directory
     owner: root
-    group: wheel
+    group: "{{ root_group }}"
     path: "{{ haproxy_cert_folder }}"
 
 - name: Generate an OpenSSL private key.

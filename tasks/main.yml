@@ -1,11 +1,16 @@
 ---
 # main task file
 
-- include_tasks: install.yml
+- name: ensure OS specifics are included
+  include_vars: "{{ item }}"
+  with_first_found:
+  - "{{ ansible_os_family }}.yml"
+
+- include_tasks: "install-{{ ansible_os_family }}.yml"
   tags:
   - install
 
-- include_tasks: logging.yml
+- include_tasks: "logging-{{ ansible_os_family }}.yml"
   tags:
   - logging
   - syslogd
@@ -19,7 +24,7 @@
   tags:
   - configuration
 
-- include_tasks: reload.yml
+- include_tasks: "reload-{{ ansible_os_family }}.yml"
   tags:
   - reload
 

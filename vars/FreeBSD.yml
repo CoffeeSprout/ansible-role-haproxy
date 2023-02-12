@@ -1,0 +1,10 @@
+---
+
+haproxy_extra_packages:
+- security/py-openssl
+- hatop
+- rsync
+
+root_group: wheel
+
+haproxy_config_file: "{{ haproxy_path_prefix }}/etc/haproxy.conf" 

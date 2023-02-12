@@ -1,11 +1,11 @@
 ---
-- hosts: all
+- hosts:  185.173.163.50
   become: True
   roles:
   - role: coffeesprout.haproxy
     haproxy_stats_password: "changeme"
 
-- hosts: all
+- hosts:  185.173.163.50
   become: True
   roles:
   - role: coffeesprout.haproxy

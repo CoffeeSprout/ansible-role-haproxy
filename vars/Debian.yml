@@ -1,0 +1,11 @@
+---
+
+haproxy_package: haproxy={{ haproxy_version }}.*
+
+haproxy_extra_packages: []
+
+root_group: root
+
+haproxy_path_prefix: ""
+
+haproxy_config_file: "/etc/haproxy/haproxy.cfg"
