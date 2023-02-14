@@ -1,6 +1,16 @@
 ---
 # Configure haproxy
 
+- name: fetch haproxy uid / gid
+  user:
+    name: haproxy
+  check_mode: True
+  register: haproxy_user_res
+
+- set_fact:
+    haproxy_uid: "{{ haproxy_user_res.uid }}"
+    haproxy_gid: "{{ haproxy_user_res.group }}"
+
 - name: ensure haproxy configuration
   template:
     src: haproxy.conf.j2
