@@ -2,7 +2,9 @@
 
 haproxy_package: haproxy={{ haproxy_version }}.*
 
-haproxy_extra_packages: []
+haproxy_extra_packages:
+- vim-haproxy
+- haproxyctl
 
 root_group: root
 
