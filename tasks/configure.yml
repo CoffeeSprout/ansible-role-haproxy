@@ -11,6 +11,12 @@
     haproxy_uid: "{{ haproxy_user_res.uid }}"
     haproxy_gid: "{{ haproxy_user_res.group }}"
 
+- name: ensure map folder
+  file:
+    path: "{{ haproxy_map_folder }}"
+    state: directory
+  when: haproxy_maps 
+
 - name: ensure haproxy configuration
   template:
     src: haproxy.conf.j2

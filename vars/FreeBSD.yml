@@ -7,4 +7,4 @@ haproxy_extra_packages:
 
 root_group: wheel
 
-haproxy_config_file: "{{ haproxy_path_prefix }}/etc/haproxy.conf" 
+haproxy_config_file: "{{ haproxy_config_folder }}/haproxy.conf" 

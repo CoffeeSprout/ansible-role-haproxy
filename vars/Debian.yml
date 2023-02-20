@@ -10,4 +10,4 @@ root_group: root
 
 haproxy_path_prefix: ""
 
-haproxy_config_file: "/etc/haproxy/haproxy.cfg"
+haproxy_config_file: "{{ haproxy_config_folder }}/haproxy.cfg"

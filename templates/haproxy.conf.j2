@@ -48,6 +48,10 @@ frontend http-{{ inventory_hostname }}
   acl http ssl_fc,not
   http-request redirect scheme https if http
 {% else %}
+{% if haproxy_maps %}
+  use_backend %[req.hdr(host),lower,map_dom({{ haproxy_map_file }},be_default)]
+{% endif %}
+{% if haproxy_classic_mapping %}
 {% for site in sites %}
 {% for domain in site.domains %} 
   acl {{ site.name }}-acl hdr(host) -i {{ domain }} 
@@ -58,6 +62,7 @@ frontend http-{{ inventory_hostname }}
   use_backend {{ site.name }}_backend if {{ site.name }}-acl 
 {% endfor %}
 {% endfor %}
+{% endif %}
 {% endif %}
 
 {% if haproxy_ssl_enabled %}
@@ -74,11 +79,16 @@ frontend https-{{ inventory_hostname }}
   acl letsencrypt-acl path_beg /.well-known/acme-challenge/
   use_backend letsencrypt-backend if letsencrypt-acl
 {% endif %}
+{% if haproxy_maps %}
+  use_backend %[req.hdr(host),lower,map_dom({{ haproxy_map_file }},be_default)]
+{% endif %}
+{% if haproxy_classic_mapping %}
 {% for site in sites %}
 {% for domain in site.domains %} 
   use_backend {{ site.name }}-backend if { ssl_fc_sni {{ domain }} }
 {% endfor %}
 {% endfor %}
+{% endif %}
 {% endif %}
 
 # Backends
