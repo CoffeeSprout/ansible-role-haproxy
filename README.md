@@ -6,6 +6,8 @@ Sets up its own self signed cert to bootstrap the proxy https; Default configura
 
 Recommended to use the haproxy\_cert\_folder and place certificates through other means
 
+Now also supports HAProxy map_dom for binding domains and backends in a more flexible and less verbose way.
+
 Requirements
 ------------
 
