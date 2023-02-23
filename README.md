@@ -96,6 +96,12 @@ Selects the userlist by name
 
 Some applications don't like receiving the Authentication header, in that case we can filter it with above.
 
+       haproxy_multi_config: False
+
+HAProxy by default only loads from a single config file; It will also support loading all files in a directory. Setting this to True makes it load the os specific haproxy_config_folder instead, allowing you to split your configs
+
+
+
 Example Playbook
 ----------------
 

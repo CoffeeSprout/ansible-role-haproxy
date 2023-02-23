@@ -84,6 +84,9 @@ haproxy_userlists: []
 haproxy_classic_mapping: True
 haproxy_maps: False
 
+#Enabling this will set the haproxy_config_folder as the configuration instead of the config file itself, allowing you to add multiple files for splitting backends
+haproxy_multi_config: False
+
 sites: []
 #  - name: coffeesprout
 #    domains:

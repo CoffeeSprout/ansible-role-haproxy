@@ -26,3 +26,10 @@
   service:
     name: haproxy
     enabled: True
+
+- name: ensure haproxy multi config support is enabled
+  lineinfile:
+    dest: /etc/default/haproxy
+    line: "CONFIG=\"{{ haproxy_config_folder }}\""
+    regexp: '^CONFIG='
+  when:  haproxy_multi_config

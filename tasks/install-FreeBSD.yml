@@ -22,3 +22,10 @@
     dest: "{{ haproxy_jail_location | default('/') }}/etc/rc.conf"
     name: "haproxy_enable"
     value: "YES"
+
+- name: ensure haproxy_config for multiple config files
+  sysrc:
+     dest: "{{ haproxy_jail_location | default('/') }}/etc/rc.conf"
+     name: "haproxy_config"
+     value: "{{ haproxy_config_folder }}"
+  when: haproxy_multi_config
