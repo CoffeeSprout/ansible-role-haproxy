@@ -16,45 +16,21 @@ FreeBSD 11.2+ ; Debian 10+
 Role Variables
 --------------
 
-    public_ip: "{{ ansible_default_ipv4.address }}"
+Here are the variables available to configure the role:
 
-The public IP that the frontend binds to
+- `public_ip`: The public IP that the frontend binds to.
+- `haproxy_default_cert`: The default certificate for HTTPS to bootstrap HAProxy with.
+- `haproxy_cert_folder`: The folder containing all the certificates (HAProxy expects a chain + private key per file).
+- `haproxy_certificates`: A list of certificates in case you want to be specific about which certificates are served (the cert folder method is more dynamic, all certs in the folder are in scope).
+- `haproxy_stats_enabled`: Whether to enable the stats or not.
+- `haproxy_stats_public`: If the stats are also available to the public.
+- `haproxy_stats_user`: The username to access HAProxy stats page.
+- `haproxy_ssl_enabled`: Whether SSL should be enabled.
+- `haproxy_alpn_enabled`: Whether to enable ALPN, H2 etc.
+- `haproxy_hsts_enabled`: Whether to enable HSTS.
 
-    haproxy_default_cert: "{{ haproxy_cert_folder }}/default-combined"
-    
-The default certificate for HTTPS to bootstrap HAProxy with
 
-    haproxy_cert_folder: "/usr/local/etc/haproxy/certs"
-
-The folder containing all the certificates (HAProxy expects a chain + private key per file)
-
-    haproxy_certificates: []
-    
-Provide a list of certificates in case you want to be specific about which certificates are served (The cert folder method is more dynamic, all certs in the folder are in scope)
-
-    haproxy_stats_enabled: True
-
-Wether to enable the stats or not
-
-    haproxy_stats_public: True
-
-If the stats are also available to the public
-
-    haproxy_stats_user: admin
-
-You should probably change this to something more secret ;-)
-
-    haproxy_ssl_enabled: True
-    
-Sometimes you don't need SSL.
-
-    haproxy_alpn_enabled: True
-
-But when you do, you probably want ALPN, H2 etc
-
-    haproxy_hsts_enabled: True
-
-And probably want to announce this using HSTS
+The `sites` variable is the most critical part of the role. It defines the sites that we want to service in HAProxy. Here's an example configuration:
 
     sites: []
     #  - name: coffeesprout
