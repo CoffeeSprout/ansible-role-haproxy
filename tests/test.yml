@@ -4,12 +4,7 @@
   roles:
   - role: coffeesprout.haproxy
     haproxy_stats_password: "changeme"
-
-- hosts:  185.173.163.50
-  become: True
-  roles:
-  - role: coffeesprout.haproxy
-    haproxy_stats_password: "changeme"
+    haproxy_multi_config: True
     haproxy_userlists:
     - name: admin
       members:
