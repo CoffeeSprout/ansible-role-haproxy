@@ -25,6 +25,13 @@ defaults
         stats uri /haproxyStats
 {% endif %}
 
+#ACLs
+{% for acl in haproxy_acls %}
+{% for rule in acl.rules %}
+acl {{ acl.name }} {{ rule }}
+{% endfor %}
+{% endfor %}
+
 #User lists
 {% for userlist in haproxy_userlists %}
 userlist {{ userlist.name }}
