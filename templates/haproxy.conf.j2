@@ -25,13 +25,6 @@ defaults
         stats uri /haproxyStats
 {% endif %}
 
-#ACLs
-{% for acl in haproxy_acls %}
-{% for rule in acl.rules %}
-acl {{ acl.name }} {{ rule }}
-{% endfor %}
-{% endfor %}
-
 #User lists
 {% for userlist in haproxy_userlists %}
 userlist {{ userlist.name }}
@@ -82,6 +75,12 @@ frontend https-{{ inventory_hostname }}
 {% endif %}
 
   http-request add-header X-Forwarded-Proto https
+#ACLs
+{% for acl in haproxy_acls %}
+{% for rule in acl.rules %}
+acl {{ acl.name }} {{ rule }}
+{% endfor %}
+{% endfor %}
 {% if letsencrypt_host is defined %}
   acl letsencrypt-acl path_beg /.well-known/acme-challenge/
   use_backend letsencrypt-backend if letsencrypt-acl
