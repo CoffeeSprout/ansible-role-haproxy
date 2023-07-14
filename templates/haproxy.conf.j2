@@ -59,7 +59,7 @@ frontend http-{{ inventory_hostname }}
 {% endfor %}
 {% for site in sites %}
 {% for domain in site.domains %} 
-  use_backend {{ site.name }}_backend if {{ site.name }}-acl 
+  use_backend {{ site.name }}_backend if {{ site.name }}-acl
 {% endfor %}
 {% endfor %}
 {% endif %}
@@ -91,7 +91,7 @@ acl {{ acl.name }} {{ rule }}
 {% if haproxy_classic_mapping %}
 {% for site in sites %}
 {% for domain in site.domains %} 
-  use_backend {{ site.name }}-backend if { ssl_fc_sni {{ domain }} }
+  use_backend {{ site.name }}-backend if { ssl_fc_sni {{ domain }} } {% if site.acl is defined %}{{ site.acl }}{% endif %}
 {% endfor %}
 {% endfor %}
 {% endif %}
@@ -119,6 +119,7 @@ backend {{ site.name }}-backend
 {% endfor %}
 {% endif %}
 {% for server in site.servers %}
-    server {{ server.id }} {{ server.hostname }}:{{ server.port | default('80') }} check
+    server {{ server.id }} {{ server.hostname }}:{{ server.port | default('80') }} {% if server.options is defined %}{{ server.options |join(' ') }}{% else %}check{% endif %}
+
 {% endfor %}
 {% endfor %}

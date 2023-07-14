@@ -59,15 +59,16 @@ haproxy_defaults:
 - name: "log"
   value: "{{ haproxy_log | default('global') }}"
 - name: "mode"
-  value: "http"
+  value: "{{ haproxy_mode | default('http') }}"
 - name: "timeout connect"
-  value: "10s"
+  value: "{{ haproxy_timeout_connect | default('10s') }}"
 - name: "timeout client"
-  value: "30s"
+  value: "{{ haproxy_timeout_client | default('30s') }}"
 - name: "timeout server"
-  value: "30s"
+  value: "{{ haproxy_timeout_server | default('30s') }}"
 - name: "timeout tunnel"
-  value: "1h"
+  value: "{{ haproxy_timeout_tunnel | default('1h') }}"
+
 
 haproxy_default_options:
 - "httplog"
