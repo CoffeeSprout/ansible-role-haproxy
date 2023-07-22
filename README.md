@@ -11,7 +11,7 @@ Now also supports HAProxy map_dom for binding domains and backends in a more fle
 Requirements
 ------------
 
-FreeBSD 11.2+ ; Debian 10+
+FreeBSD 11.2+ ; Debian 11+
 
 Role Variables
 --------------
