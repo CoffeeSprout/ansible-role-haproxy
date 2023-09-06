@@ -52,6 +52,8 @@ haproxy_global:
   value: "{{ haproxy_default_dh_param | default('2048') }}"
 - name: "stats"
   value: "{{ haproxy_stats | default('socket /var/run/haproxy.sock mode 600 level admin') }}"
+- name: "hard-stop-after"
+  value: "15s"
 
 haproxy_global_extra: []
 
