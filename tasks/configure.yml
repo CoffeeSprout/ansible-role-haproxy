@@ -19,7 +19,7 @@
 
 - name: ensure haproxy configuration
   template:
-    src: haproxy.conf.j2
+    src: "{{ haproxy_template | default('haproxy.conf.j2') }}"
     dest: "{{  haproxy_config_file }}"
   register: haproxy_config_change
 
